@@ -11,7 +11,7 @@ public class ReaderController {
 	
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	
-	public String readCode() throws IOException{
+	public String readId() throws IOException{
 		String line = reader.readLine();
 		return line;
 	}

@@ -2,34 +2,65 @@ package org.piccolo;
 /**
  * Piccolo an accesscontrol system in Java for different platforms.
  */
+import java.io.IOException;
+
 import com.pi4j.io.gpio.*;
+
+import org.piccolo.Authorization.AuthorizationController;
+import org.piccolo.Authorization.impl.AuthorizationControllerImpl;
 import org.piccolo.infoLed.LedController;
 import org.piccolo.infoLed.impl.RgbLed;
 
-public class PiccoloRunner implements Runnable{
+public class PiccoloRunner {
+	
+	private GpioController gpio;
+	private ReaderController readerController;
+	private AuthorizationController authorizationController;
+
+    public static void main(String ... args){
+    	PiccoloRunner piccoloRunner= new PiccoloRunner();
+    	try {
+    		piccoloRunner.setup();
+    		piccoloRunner.run();
+    	} finally {
+    		piccoloRunner.cleanup();
+    	}
+    }
 
     // Method for setting up the environment on the PI for running the Piccolo
-    public void setup(){
+    void setup(){
+    	gpio = GpioFactory.getInstance();
         //Setup the reader
-
+    	readerController = new ReaderController();
+    	//Setup authorization
+    	authorizationController = new AuthorizationControllerImpl();
         //Setup the Led connection
         //Setup the lock
         //Setup the Beeper
     }
-
-    public static void main(String ... args){
-        runLedController();
+    
+    void cleanup() {
+    	if (gpio != null) {
+    		gpio.shutdown();
+    	}
     }
 
-
-    public void run() {
-
+    void run() {
+    	for (int i = 0; i < 3; i++) {
+    		try {
+    			String id = readerController.readId();
+    			if (authorizationController.requestAccess(id)) {
+    				runLedController();
+    			} else {
+    				runLedController();
+    			}
+    		} catch (IOException ioException) {
+    			ioException.printStackTrace();
+    		}
+    	}
     }
 
-    public static void runLedController(){
-        // create gpio controller instance
-        final GpioController gpio = GpioFactory.getInstance();
-
+    void runLedController(){
         try {
             //create ledController
             LedController controller = new RgbLed(gpio, RaspiPin.GPIO_00, RaspiPin.GPIO_01, RaspiPin.GPIO_02);
