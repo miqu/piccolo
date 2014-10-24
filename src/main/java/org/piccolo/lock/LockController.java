@@ -1,15 +1,31 @@
 package org.piccolo.lock;
 
-import com.pi4j.io.gpio.GpioPin;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.PinState;
+import org.piccolo.FeedbackController;
 
 /**
- * A controller for opening the lock
+ * Created by mrt on 24.10.2014.
  */
-public interface LockController {
+public class LockController implements FeedbackController {
 
-    /**
-     * Opens the the lock connected to the pin given as parameter.
-     * @param gpioPinToOpen The pin of the lockcontrol
-     */
-    public void openLock(GpioPin gpioPinToOpen);
+    private GpioPinDigitalOutput unlockPin;
+
+    public LockController(GpioController gpio, Pin lockPin){
+        unlockPin = gpio.provisionDigitalOutputPin(lockPin, "unlockPin", PinState.LOW);
+    }
+
+    private void unlock(long timeInMillis){
+        unlockPin.blink(timeInMillis);
+    }
+
+	public void onSuccess() {
+		unlock(5000);
+	}
+
+	public void onFail() {
+		// do nothing
+	}
 }
