@@ -2,6 +2,7 @@ package org.piccolo.led.impl;
 
 import com.pi4j.io.gpio.*;
 
+import org.piccolo.PinLayout;
 import org.piccolo.led.LedController;
 
 /**
@@ -14,12 +15,12 @@ public class RgbLed implements LedController{
     private GpioPinDigitalOutput redPin;
     private GpioPinDigitalOutput bluePin;
 
-    public RgbLed(GpioController controller, Pin red, Pin green, Pin blue){
+    public RgbLed(GpioController controller){
         gpio = controller;
 
-        greenPin = gpio.provisionDigitalOutputPin(green, "green", PinState.LOW);
-        redPin = gpio.provisionDigitalOutputPin(red, "red", PinState.LOW);
-        bluePin = gpio.provisionDigitalOutputPin(blue, "blue", PinState.LOW);
+        greenPin = gpio.provisionDigitalOutputPin(PinLayout.GREEN_LED.pin, "green", PinState.LOW);
+        redPin = gpio.provisionDigitalOutputPin(PinLayout.RED_LED.pin, "red", PinState.LOW);
+        bluePin = gpio.provisionDigitalOutputPin(PinLayout.BLUE_LED.pin, "blue", PinState.LOW);
     }
 
     @Override
@@ -63,5 +64,18 @@ public class RgbLed implements LedController{
 	public void onFail() {
         blink(LedColor.red, 5000);
 	}
+
+    private void blink(LedColor ledColor) {
+        for (int i=0;i<10;i++) {
+            on(ledColor);
+
+            try {
+                Thread.sleep(1500);
+                off();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

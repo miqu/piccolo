@@ -4,7 +4,9 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
+
 import org.piccolo.FeedbackController;
+import org.piccolo.PinLayout;
 
 /**
  * Created by mrt on 24.10.2014.
@@ -13,12 +15,12 @@ public class LockController implements FeedbackController {
 
     private GpioPinDigitalOutput unlockPin;
 
-    public LockController(GpioController gpio, Pin lockPin){
-        unlockPin = gpio.provisionDigitalOutputPin(lockPin, "unlockPin", PinState.LOW);
+    public LockController(GpioController gpio){
+        unlockPin = gpio.provisionDigitalOutputPin(PinLayout.UNLOCK.pin, "unlockPin", PinState.LOW);
     }
 
     private void unlock(long timeInMillis){
-        unlockPin.blink(timeInMillis);
+        unlockPin.pulse(timeInMillis, PinState.HIGH);
     }
 
 	public void onSuccess() {

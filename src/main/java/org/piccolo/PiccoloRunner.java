@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import com.pi4j.io.gpio.*;
-
 import org.piccolo.auth.AuthorizationController;
 import org.piccolo.auth.impl.AuthorizationControllerImpl;
+import org.piccolo.led.LedController;
 import org.piccolo.led.impl.RgbLed;
 import org.piccolo.lock.LockController;
+
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
 
 public class PiccoloRunner {
 	
@@ -39,9 +41,9 @@ public class PiccoloRunner {
     	authorizationController = new AuthorizationControllerImpl();
     	feedbackControllers = new LinkedList<FeedbackController>();
         //Setup the Led connection
-    	feedbackControllers.add(new RgbLed(gpio, RaspiPin.GPIO_00, RaspiPin.GPIO_01, RaspiPin.GPIO_02));
+    	feedbackControllers.add(new RgbLed(gpio));
         //Setup the lock
-    	feedbackControllers.add(new LockController(gpio, RaspiPin.GPIO_03));
+    	feedbackControllers.add(new LockController(gpio));
         //Setup the Beeper
     }
     
@@ -74,5 +76,14 @@ public class PiccoloRunner {
     			ioException.printStackTrace();
     		}
     	}
+    }
+
+    void runLedController(){
+        try {
+            //create ledController
+            LedController controller = new RgbLed(gpio);
+        } finally {
+            gpio.shutdown();
+        }
     }
 }
