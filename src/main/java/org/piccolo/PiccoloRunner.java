@@ -57,11 +57,7 @@ public class PiccoloRunner {
     			String id = readerController.readId();
     			boolean authorized = authorizationController.requestAccess(id);
     			for (FeedbackController feedbackController : feedbackControllers) {
-    				if (authorized) {
-    					feedbackController.onSuccess();
-    				} else {
-    					feedbackController.onFail();
-    				}
+    				new Thread(new FeedbackRunnable(feedbackController, authorized)).run();
     			}
     		} catch (IOException ioException) {
     			ioException.printStackTrace();
