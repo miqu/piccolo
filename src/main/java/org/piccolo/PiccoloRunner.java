@@ -52,13 +52,24 @@ public class PiccoloRunner {
     }
 
     void run() {
+		Collection<Thread> feedbackThreads = new LinkedList<Thread>();
     	for (int i = 0; i < 3; i++) {
     		try {
     			String id = readerController.readId();
     			boolean authorized = authorizationController.requestAccess(id);
     			for (FeedbackController feedbackController : feedbackControllers) {
-    				new Thread(new FeedbackRunnable(feedbackController, authorized)).run();
+    				Thread feedbackThread = new Thread(new FeedbackRunnable(feedbackController, authorized));
+    				feedbackThreads.add(feedbackThread);
+    				feedbackThread.start();
     			}
+    			for (Thread feedbackThread : feedbackThreads) {
+    				try {
+    					feedbackThread.join();
+    				} catch (InterruptedException interruptedException) {
+    					interruptedException.printStackTrace();
+    				}
+    			}
+    			feedbackThreads.clear();
     		} catch (IOException ioException) {
     			ioException.printStackTrace();
     		}
