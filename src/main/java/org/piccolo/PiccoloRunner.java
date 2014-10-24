@@ -18,6 +18,15 @@ public class PiccoloRunner implements Runnable{
     }
 
     public static void main(String ... args){
+        runLedController();
+    }
+
+
+    public void run() {
+
+    }
+
+    public static void runLedController(){
         // create gpio controller instance
         final GpioController gpio = GpioFactory.getInstance();
 
@@ -28,7 +37,6 @@ public class PiccoloRunner implements Runnable{
             gpio.shutdown();
         }
     }
-
 
     private static void blink(LedController ledController) {
         for (int i=0;i<10;i++) {
@@ -41,9 +49,5 @@ public class PiccoloRunner implements Runnable{
                 e.printStackTrace();
             }
         }
-    }
-
-    public void run() {
-
     }
 }
