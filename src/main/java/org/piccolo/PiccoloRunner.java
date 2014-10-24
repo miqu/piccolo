@@ -39,7 +39,7 @@ public class PiccoloRunner {
     	authorizationController = new AuthorizationControllerImpl();
     	feedbackControllers = new LinkedList<FeedbackController>();
         //Setup the Led connection
-    	feedbackControllers.add(new RgbLed(gpio, RaspiPin.GPIO_00, RaspiPin.GPIO_01, RaspiPin.GPIO_02));
+    	feedbackControllers.add(new RgbLed(gpio));
         //Setup the lock
     	feedbackControllers.add(new LockController());
         //Setup the Beeper
@@ -79,7 +79,7 @@ public class PiccoloRunner {
     void runLedController(){
         try {
             //create ledController
-            LedController controller = new RgbLed(gpio, RaspiPin.GPIO_00, RaspiPin.GPIO_01, RaspiPin.GPIO_02);
+            LedController controller = new RgbLed(gpio);
         } finally {
             gpio.shutdown();
         }

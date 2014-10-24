@@ -14,7 +14,7 @@ public class RgbLed implements LedController {
 	private GpioPinDigitalOutput redPin;
 	private GpioPinDigitalOutput bluePin;
 
-	public RgbLed(GpioController controller, Pin red, Pin green, Pin blue) {
+	public RgbLed(GpioController controller) {
 		gpio = controller;
 
 		greenPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "green",
