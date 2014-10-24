@@ -10,4 +10,5 @@ public interface LedController extends FeedbackController {
 
     void on(LedColor color);
     void off();
+    void blink(LedColor color, long timeInMillis);
 }

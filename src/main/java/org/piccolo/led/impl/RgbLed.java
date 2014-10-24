@@ -45,14 +45,24 @@ public class RgbLed implements LedController{
         bluePin.setState(false);
     }
 
+    public void blink(LedColor color, long timeInMillis){
+        try {
+            on(color);
+            Thread.sleep(timeInMillis);
+            off();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 	@Override
 	public void onSuccess() {
-		on(LedColor.green);
+		blink(LedColor.green, 5000);
 	}
 
 	@Override
 	public void onFail() {
-        on(LedColor.red);
+        blink(LedColor.red, 5000);
 	}
 
     private void blink(LedColor ledColor) {
