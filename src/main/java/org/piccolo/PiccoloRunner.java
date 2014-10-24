@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import com.pi4j.io.gpio.*;
-
 import org.piccolo.auth.AuthorizationController;
 import org.piccolo.auth.impl.AuthorizationControllerImpl;
 import org.piccolo.led.LedController;
 import org.piccolo.led.impl.RgbLed;
+import org.piccolo.lock.LockController;
+
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
 
 public class PiccoloRunner {
 	
