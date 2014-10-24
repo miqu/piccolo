@@ -16,3 +16,7 @@ hs_err_pid*
 #idea files
 /.idea
 *.iml
+/bin/
+/target/
+#maven
+/apache-maven-3.0.4
