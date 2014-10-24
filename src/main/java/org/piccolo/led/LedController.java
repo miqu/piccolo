@@ -1,4 +1,4 @@
-package org.piccolo.infoLed;
+package org.piccolo.led;
 
 import org.piccolo.FeedbackController;
 

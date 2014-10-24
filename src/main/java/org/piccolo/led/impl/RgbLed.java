@@ -1,7 +1,8 @@
-package org.piccolo.infoLed.impl;
+package org.piccolo.led.impl;
 
 import com.pi4j.io.gpio.*;
-import org.piccolo.infoLed.LedController;
+
+import org.piccolo.led.LedController;
 
 /**
  * Created by siim on 24/10/14.

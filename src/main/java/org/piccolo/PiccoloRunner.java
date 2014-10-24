@@ -8,10 +8,10 @@ import java.util.LinkedList;
 
 import com.pi4j.io.gpio.*;
 
-import org.piccolo.Authorization.AuthorizationController;
-import org.piccolo.Authorization.impl.AuthorizationControllerImpl;
-import org.piccolo.infoLed.LedController;
-import org.piccolo.infoLed.impl.RgbLed;
+import org.piccolo.auth.AuthorizationController;
+import org.piccolo.auth.impl.AuthorizationControllerImpl;
+import org.piccolo.led.LedController;
+import org.piccolo.led.impl.RgbLed;
 
 public class PiccoloRunner {
 	
