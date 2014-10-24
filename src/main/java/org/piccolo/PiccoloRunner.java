@@ -10,8 +10,8 @@ import com.pi4j.io.gpio.*;
 
 import org.piccolo.auth.AuthorizationController;
 import org.piccolo.auth.impl.AuthorizationControllerImpl;
-import org.piccolo.led.LedController;
 import org.piccolo.led.impl.RgbLed;
+import org.piccolo.lock.LockController;
 
 public class PiccoloRunner {
 	
@@ -39,9 +39,9 @@ public class PiccoloRunner {
     	authorizationController = new AuthorizationControllerImpl();
     	feedbackControllers = new LinkedList<FeedbackController>();
         //Setup the Led connection
-    	feedbackControllers.add(new RgbLed(gpio));
+    	feedbackControllers.add(new RgbLed(gpio, RaspiPin.GPIO_00, RaspiPin.GPIO_01, RaspiPin.GPIO_02));
         //Setup the lock
-    	feedbackControllers.add(new LockController());
+    	feedbackControllers.add(new LockController(gpio, RaspiPin.GPIO_03));
         //Setup the Beeper
     }
     
@@ -74,27 +74,5 @@ public class PiccoloRunner {
     			ioException.printStackTrace();
     		}
     	}
-    }
-
-    void runLedController(){
-        try {
-            //create ledController
-            LedController controller = new RgbLed(gpio);
-        } finally {
-            gpio.shutdown();
-        }
-    }
-
-    private static void blink(LedController ledController) {
-        for (int i=0;i<10;i++) {
-            ledController.on();
-
-            try {
-                Thread.sleep(1500);
-                ledController.off();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
