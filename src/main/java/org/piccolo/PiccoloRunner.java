@@ -41,7 +41,7 @@ public class PiccoloRunner {
         //Setup the Led connection
     	feedbackControllers.add(new RgbLed(gpio));
         //Setup the lock
-    	feedbackControllers.add(new LockController());
+    	feedbackControllers.add(new LockController(gpio));
         //Setup the Beeper
     }
     
