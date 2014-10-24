@@ -45,6 +45,7 @@ public class PiccoloRunner {
         //Setup the lock
     	feedbackControllers.add(new LockController(gpio));
         //Setup the Beeper
+        feedbackControllers.add(new BeepController(gpio,PinLayout.BEEP.pin));
     }
     
     void cleanup() {
