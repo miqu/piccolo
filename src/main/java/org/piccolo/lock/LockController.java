@@ -20,7 +20,7 @@ public class LockController implements FeedbackController {
     }
 
     private void unlock(long timeInMillis){
-        unlockPin.blink(timeInMillis);
+        unlockPin.pulse(timeInMillis, PinState.HIGH);
     }
 
 	public void onSuccess() {
