@@ -1,4 +1,6 @@
-package org.piccolo;
+package org.piccolo.impl;
+
+import org.piccolo.AuthorizationController;
 
 /**
  * Class for connecting to ODOO and asking form permissions for an ID.

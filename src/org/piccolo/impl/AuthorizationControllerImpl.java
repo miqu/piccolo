@@ -1,4 +1,6 @@
-package org.piccolo;
+package org.piccolo.impl;
+
+import org.piccolo.AuthorizationController;
 
 /**
  * Controls the authorizations
