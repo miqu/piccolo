@@ -18,8 +18,8 @@ public class RgbLed implements LedController{
         gpio = controller;
 
         greenPin = gpio.provisionDigitalOutputPin(green, "green", PinState.LOW);
-        redPin = gpio.provisionDigitalOutputPin(blue, "red", PinState.LOW);
-        bluePin = gpio.provisionDigitalOutputPin(red, "blue", PinState.LOW);
+        redPin = gpio.provisionDigitalOutputPin(red, "red", PinState.LOW);
+        bluePin = gpio.provisionDigitalOutputPin(blue, "blue", PinState.LOW);
     }
 
     @Override
@@ -46,14 +46,12 @@ public class RgbLed implements LedController{
 
 	@Override
 	public void onSuccess() {
-		// TODO Auto-generated method stub
-
+		on(LedColor.green);
 	}
 
 	@Override
 	public void onFail() {
-		// TODO Auto-generated method stub
-
+        on(LedColor.red);
 	}
 
 }
