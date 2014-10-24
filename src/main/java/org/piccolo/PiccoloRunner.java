@@ -3,6 +3,8 @@ package org.piccolo;
  * Piccolo an accesscontrol system in Java for different platforms.
  */
 import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import com.pi4j.io.gpio.*;
 
@@ -16,6 +18,7 @@ public class PiccoloRunner {
 	private GpioController gpio;
 	private ReaderController readerController;
 	private AuthorizationController authorizationController;
+	private Collection<FeedbackController> feedbackControllers;
 
     public static void main(String ... args){
     	PiccoloRunner piccoloRunner= new PiccoloRunner();
@@ -34,8 +37,11 @@ public class PiccoloRunner {
     	readerController = new ReaderController();
     	//Setup authorization
     	authorizationController = new AuthorizationControllerImpl();
+    	feedbackControllers = new LinkedList<FeedbackController>();
         //Setup the Led connection
+    	feedbackControllers.add(new RgbLed(gpio, RaspiPin.GPIO_00, RaspiPin.GPIO_01, RaspiPin.GPIO_02));
         //Setup the lock
+    	feedbackControllers.add(new LockController());
         //Setup the Beeper
     }
     
@@ -49,10 +55,13 @@ public class PiccoloRunner {
     	for (int i = 0; i < 3; i++) {
     		try {
     			String id = readerController.readId();
-    			if (authorizationController.requestAccess(id)) {
-    				runLedController();
-    			} else {
-    				runLedController();
+    			boolean authorized = authorizationController.requestAccess(id);
+    			for (FeedbackController feedbackController : feedbackControllers) {
+    				if (authorized) {
+    					feedbackController.onSuccess();
+    				} else {
+    					feedbackController.onFail();
+    				}
     			}
     		} catch (IOException ioException) {
     			ioException.printStackTrace();
