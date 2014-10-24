@@ -1,7 +1,18 @@
 package org.piccolo;
 
 /**
- * Created by mrt on 24.10.2014.
+ * Operates the buzzer.
  */
-public class BeepController {
+public class BeepController implements FeedbackController {
+
+	public void onSuccess() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onFail() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
