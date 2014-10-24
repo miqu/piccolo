@@ -3,6 +3,8 @@ package org.piccolo;
  * Piccolo an accesscontrol system in Java for different platforms.
  */
 import com.pi4j.io.gpio.*;
+import org.piccolo.infoLed.LedController;
+import org.piccolo.infoLed.impl.RgbLed;
 
 public class PiccoloRunner implements Runnable{
 
@@ -16,33 +18,36 @@ public class PiccoloRunner implements Runnable{
     }
 
     public static void main(String ... args){
-        // create gpio controller instance
-        final GpioController gpio = GpioFactory.getInstance();
-        try {
-	        // provision gpio pins #04 as an output pin and make sure is is set to LOW at startup
-	        GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04,   // PIN NUMBER
-	                "My LED",           // PIN FRIENDLY NAME (optional)
-	                PinState.LOW);      // PIN STARTUP STATE (optional)
-	        blink(myLed);
-        } finally {
-        	gpio.shutdown();
-        }
+        runLedController();
     }
 
 
-    private static void blink(GpioPinDigitalOutput myLed) {
+    public void run() {
+
+    }
+
+    public static void runLedController(){
+        // create gpio controller instance
+        final GpioController gpio = GpioFactory.getInstance();
+
+        try {
+            //create ledController
+            LedController controller = new RgbLed(gpio, RaspiPin.GPIO_00, RaspiPin.GPIO_01, RaspiPin.GPIO_02);
+        } finally {
+            gpio.shutdown();
+        }
+    }
+
+    private static void blink(LedController ledController) {
         for (int i=0;i<10;i++) {
-            myLed.pulse(1000);
+            ledController.on();
 
             try {
                 Thread.sleep(1500);
+                ledController.off();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void run() {
-
     }
 }
