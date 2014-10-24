@@ -84,17 +84,4 @@ public class PiccoloRunner {
             gpio.shutdown();
         }
     }
-
-    private static void blink(LedController ledController) {
-        for (int i=0;i<10;i++) {
-            ledController.on();
-
-            try {
-                Thread.sleep(1500);
-                ledController.off();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
