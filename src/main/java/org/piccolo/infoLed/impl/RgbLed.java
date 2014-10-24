@@ -1,7 +1,6 @@
 package org.piccolo.infoLed.impl;
 
-import com.pi4j.io.gpio.GpioController;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.*;
 import org.piccolo.infoLed.LedController;
 
 /**
@@ -11,23 +10,25 @@ public class RgbLed implements LedController{
 
     private GpioController gpio;
     private GpioPinDigitalOutput greenPin;
-    private GpioPinDigitalOutput
+    private GpioPinDigitalOutput redPin;
+    private GpioPinDigitalOutput bluePin;
 
-    RgbLed(GpioController controller){
+    public RgbLed(GpioController controller, Pin red, Pin green, Pin blue){
         gpio = controller;
 
-        GpioPinDigitalOutput greenPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "green", PinState.LOW);
-
+        greenPin = gpio.provisionDigitalOutputPin(green, "green", PinState.LOW);
+        redPin = gpio.provisionDigitalOutputPin(blue, "red", PinState.LOW);
+        bluePin = gpio.provisionDigitalOutputPin(red, "blue", PinState.LOW);
     }
 
     @Override
     public void on() {
-
+        greenPin.setState(PinState.HIGH);
     }
 
     @Override
     public void off() {
-
+        greenPin.setState(PinState.LOW);
     }
 
 
