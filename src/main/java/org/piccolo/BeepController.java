@@ -17,42 +17,39 @@ public class BeepController implements FeedbackController {
         buzzer = gpio.provisionDigitalOutputPin(buzzerPin, "buzzerPin", PinState.LOW);
     }
 	public void onSuccess() {
-
+        buzzer.high();
         try {
-            buzzer.high();
             Thread.sleep(3000);
-            buzzer.low();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        finally {
             buzzer.low();
         }
-
 	}
 
 	public void onFail() {
+        deniedSound(buzzer);
+    }
+
+    private void deniedSound(GpioPinDigitalOutput buzzer){
+        int [] sleeptimes = {200,300,150,100,150,300,200,200,200};
         try {
-            buzzer.high();
-            Thread.sleep(200);
-            buzzer.low();
-            Thread.sleep(300);
-            buzzer.high();
-            Thread.sleep(150);
-            buzzer.low();
-            Thread.sleep(100);
-            buzzer.high();
-            Thread.sleep(150);
-            buzzer.low();
-            Thread.sleep(300);
-            buzzer.high();
-            Thread.sleep(200);
-            buzzer.low();
-            Thread.sleep(200);
-            buzzer.high();
-            Thread.sleep(200);
-            buzzer.low();
+        for(int sleeptime = 0; sleeptime < sleeptimes.length ; sleeptime++){
+
+            if(sleeptime % 2==0) {
+                buzzer.high();
+            }
+            else {
+                buzzer.low();
+            }
+            Thread.sleep(sleeptimes[sleeptime]);
+        }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        finally {
+            buzzer.low();
+        }
     }
-	
 }
