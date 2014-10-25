@@ -26,13 +26,13 @@ public class RgbLed implements LedController{
     @Override
     public void on(LedColor color) {
         switch (color){
-            case blue:
+            case BLUE:
                 bluePin.setState(true);
                 break;
-            case red:
+            case RED:
                 redPin.setState(true);
                 break;
-            case green:
+            case GREEN:
                 greenPin.setState(true);
                 break;
         }
@@ -57,12 +57,12 @@ public class RgbLed implements LedController{
 
 	@Override
 	public void onSuccess() {
-		blink(LedColor.green, 5000);
+		blink(LedColor.GREEN, 5000);
 	}
 
 	@Override
 	public void onFail() {
-        blink(LedColor.red, 5000);
+        blink(LedColor.RED, 5000);
 	}
 
     private void blink(LedColor ledColor) {
