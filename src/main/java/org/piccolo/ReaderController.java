@@ -25,7 +25,7 @@ public class ReaderController {
             try {
                 luettu=rc.readId();
                 if(luettu==null){
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 }
 
             } catch (IOException e) {
