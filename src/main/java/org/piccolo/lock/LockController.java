@@ -20,7 +20,15 @@ public class LockController implements FeedbackController {
     }
 
     private void unlock(long timeInMillis){
-        unlockPin.pulse(timeInMillis, PinState.HIGH);
+        unlockPin.high();
+        try {
+            Thread.sleep(timeInMillis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        finally {
+            unlockPin.low();
+        }
     }
 
 	public void onSuccess() {
