@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.piccolo.Configuration.Setting;
 import org.piccolo.auth.AuthorizationController;
 import org.piccolo.auth.impl.AuthorizationControllerImpl;
 import org.piccolo.led.LedController;
@@ -61,6 +62,9 @@ public class PiccoloRunner {
     	while (true) {
     		try {
     			String id = readerController.readId();
+    			if (id.equals(configuration.getSetting(Setting.SHUTDOWN_CODE))) {
+    				break;
+    			}
     			boolean authorized = authorizationController.requestAccess(id);
     			for (FeedbackController feedbackController : feedbackControllers) {
     				Thread feedbackThread = new Thread(new FeedbackRunnable(feedbackController, authorized));
