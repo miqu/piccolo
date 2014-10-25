@@ -21,18 +21,19 @@ import com.owlike.genson.Genson;
  * Controls the authorizations
  */
 public class AuthorizationControllerImpl implements AuthorizationController {
-	private static final int TIMEOUT = 3000;
+	private int timeout;
 	private URI serviceBaseUri;
 	
 	public AuthorizationControllerImpl(Configuration configuration) {
-		serviceBaseUri = UriBuilder.fromUri(configuration.getSetting(Setting.AUTH_SERVICE_URI)).build();		
+		serviceBaseUri = UriBuilder.fromUri(configuration.getSetting(Setting.AUTH_SERVICE_URI)).build();
+		timeout = Integer.parseInt(configuration.getSetting(Setting.AUTH_SERVICE_TIMEOUT));
 	}
 	
     public boolean requestAccess(String id){
     	try {
 	    	Client client = ClientBuilder.newClient();
-	    	client.property(ClientProperties.CONNECT_TIMEOUT, TIMEOUT);
-	    	client.property(ClientProperties.READ_TIMEOUT, TIMEOUT);
+	    	client.property(ClientProperties.CONNECT_TIMEOUT, timeout);
+	    	client.property(ClientProperties.READ_TIMEOUT, timeout);
 	    	WebTarget webTarget = client.target(serviceBaseUri);
 	    	Builder builder = webTarget.path("piccoloUser").path("canAccess").path(id).request().accept(MediaType.APPLICATION_JSON);
 			Response response = builder.get();

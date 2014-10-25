@@ -12,7 +12,8 @@ import org.apache.commons.lang3.text.WordUtils;
 public class Configuration {
 	public enum Setting {
 		
-		AUTH_SERVICE_URI("http://172.16.68.52:8080/piccoloapi");
+		AUTH_SERVICE_URI("http://172.16.68.52:8080/piccoloapi"),
+		AUTH_SERVICE_TIMEOUT("3000");
 		
 		private final String defaultValue;
 		
