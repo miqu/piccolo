@@ -13,8 +13,8 @@ public class BeepController implements FeedbackController {
 
     private final GpioPinDigitalOutput buzzer;
 
-    public BeepController(GpioController gpio, Pin buzzerPin){
-        buzzer = gpio.provisionDigitalOutputPin(buzzerPin, "buzzerPin", PinState.LOW);
+    public BeepController(GpioController gpio){
+        buzzer = gpio.provisionDigitalOutputPin(PinLayout.BEEP.pin, "buzzerPin", PinState.LOW);
     }
 	public void onSuccess() {
         buzzer.high();
