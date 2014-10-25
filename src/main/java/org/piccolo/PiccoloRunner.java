@@ -17,6 +17,7 @@ import com.pi4j.io.gpio.GpioFactory;
 
 public class PiccoloRunner {
 	
+	private Configuration configuration;
 	private GpioController gpio;
 	private ReaderController readerController;
 	private AuthorizationController authorizationController;
@@ -34,11 +35,12 @@ public class PiccoloRunner {
 
     // Method for setting up the environment on the PI for running the Piccolo
     void setup(){
+    	configuration = new Configuration();
     	gpio = GpioFactory.getInstance();
         //Setup the reader
     	readerController = new ReaderController();
     	//Setup authorization
-    	authorizationController = new AuthorizationControllerImpl();
+    	authorizationController = new AuthorizationControllerImpl(configuration);
     	feedbackControllers = new LinkedList<FeedbackController>();
         //Setup the Led connection
     	feedbackControllers.add(new RgbLed(gpio));

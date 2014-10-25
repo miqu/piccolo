@@ -11,6 +11,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientProperties;
+import org.piccolo.Configuration;
+import org.piccolo.Configuration.Setting;
 import org.piccolo.auth.AuthorizationController;
 
 import com.owlike.genson.Genson;
@@ -19,15 +21,19 @@ import com.owlike.genson.Genson;
  * Controls the authorizations
  */
 public class AuthorizationControllerImpl implements AuthorizationController {
-	private static final URI SERVICE_BASE_URI = UriBuilder.fromUri("http://172.16.68.50:8080/piccoloapi").build();
 	private static final int TIMEOUT = 3000;
+	private URI serviceBaseUri;
+	
+	public AuthorizationControllerImpl(Configuration configuration) {
+		serviceBaseUri = UriBuilder.fromUri(configuration.getSetting(Setting.AUTH_SERVICE_URI)).build();		
+	}
 	
     public boolean requestAccess(String id){
     	try {
 	    	Client client = ClientBuilder.newClient();
 	    	client.property(ClientProperties.CONNECT_TIMEOUT, TIMEOUT);
 	    	client.property(ClientProperties.READ_TIMEOUT, TIMEOUT);
-	    	WebTarget webTarget = client.target(SERVICE_BASE_URI);
+	    	WebTarget webTarget = client.target(serviceBaseUri);
 	    	Builder builder = webTarget.path("piccoloUser").path("canAccess").path(id).request().accept(MediaType.APPLICATION_JSON);
 			Response response = builder.get();
 			String responseString = response.readEntity(String.class);
@@ -39,8 +45,12 @@ public class AuthorizationControllerImpl implements AuthorizationController {
     	}
     }
     
+    /**
+     * Tests accessing the service.
+     * @param args required by API, not used.
+     */
     public static void main(String... args) {
-    	AuthorizationController authorizationController= new AuthorizationControllerImpl();
+    	AuthorizationController authorizationController= new AuthorizationControllerImpl(new Configuration());
     	System.out.println(authorizationController.requestAccess("1234"));
     }
     
