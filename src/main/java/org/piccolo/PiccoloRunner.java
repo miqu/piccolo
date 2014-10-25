@@ -58,7 +58,7 @@ public class PiccoloRunner {
 
     void run() {
 		Collection<Thread> feedbackThreads = new LinkedList<Thread>();
-    	for (int i = 0; i < 3; i++) {
+    	while (true) {
     		try {
     			String id = readerController.readId();
     			boolean authorized = authorizationController.requestAccess(id);
